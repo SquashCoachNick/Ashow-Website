@@ -587,6 +587,12 @@ function fromGoogle(it){
   e.summary = summary.join(' ');
   e.regular = /^(y|yes|true)/i.test(e.regular || '') || !!it.recurringEventId;
   if(!e.flyerLink && it.attachments && it.attachments.length) e.flyerLink = it.attachments[0].fileUrl;
+  // Google Drive flyer: try to show it as a picture; if Google blocks it, the page falls back to the club-sign tile
+  const driveId = (String(e.flyerLink || '').match(/\/d\/([\w-]{20,})|[?&]id=([\w-]{20,})/) || []).slice(1).find(Boolean);
+  if(driveId){
+    e.flyer    = 'https://drive.google.com/thumbnail?id=' + driveId + '&sz=w800';
+    e.flyerBig = 'https://drive.google.com/thumbnail?id=' + driveId + '&sz=w1600';
+  }
   return e;
 }
 async function loadEvents(){
@@ -619,7 +625,7 @@ function renderNext(){
   const e = {...DEFAULTS, ...nextUp};
   el.innerHTML = `
     ${e.flyer
-      ? `<div class="next-flyer"><button type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')" aria-label="View the ${esc(e.title)} flyer"><img src="${e.flyer}" alt="Flyer for ${esc(e.title)}"></button></div>`
+      ? `<div class="next-flyer"><button type="button" onclick="showFlyer('${esc(e.flyerBig||e.flyer)}','${esc(e.title)} flyer','${esc(e.flyerLink||'')}')" aria-label="View the ${esc(e.title)} flyer"><img src="${esc(e.flyer)}" alt="Flyer for ${esc(e.title)}" onerror="flyerFailed(this)"></button></div>`
       : `<div class="next-flyer next-decor" aria-hidden="true"><img src="assets/decor/hanging-sign.png" alt=""></div>`}
     <div class="next-body">
       <div class="next-label"><span class="pill">Next up</span><span class="countdown">${countdownText(e.date)}</span></div>
@@ -635,8 +641,8 @@ function renderNext(){
       </dl>
       <div class="actions">
         ${calMenu(EVENTS.indexOf(nextUp), 'btn btn-ochre', 'Add to my calendar')}
-        ${e.flyer ? `<button class="btn btn-line" type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')">View the flyer</button>`
-          : e.flyerLink ? `<a class="btn btn-line" href="${esc(e.flyerLink)}" target="_blank" rel="noopener">View the flyer</a>` : ''}
+        ${e.flyerLink ? `<a class="btn btn-line" href="${esc(e.flyerLink)}" target="_blank" rel="noopener">View the flyer</a>`
+          : e.flyer ? `<button class="btn btn-line" type="button" onclick="showFlyer('${esc(e.flyer)}','${esc(e.title)} flyer')">View the flyer</button>` : ''}
       </div>
     </div>`;
 }
@@ -655,7 +661,7 @@ function renderCards(){
       : `<div class="datebox tbc-date" aria-hidden="true"><span class="m">${MONTHS[Number(e.month.slice(5))-1].slice(0,3)}</span><span class="d" style="margin-top:6px">TBC</span></div>`;
     const when = confirmed ? `${fmtLong(e.date)} · ${esc(e.time)}` : `${esc(e.when)} ${e.month.slice(0,4)} · date to be confirmed`;
     const thumb = e.flyer
-      ? `<button class="thumb" type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')" aria-label="View the ${esc(e.title)} flyer"><img src="${e.flyer}" alt=""></button>`
+      ? `<button class="thumb" type="button" onclick="showFlyer('${esc(e.flyerBig||e.flyer)}','${esc(e.title)} flyer','${esc(e.flyerLink||'')}')" aria-label="View the ${esc(e.title)} flyer"><img src="${esc(e.flyer)}" alt="" onerror="flyerFailed(this)"></button>`
       : `<span class="thumb icon"><img src="assets/decor/${DECOR[i % DECOR.length]}.png" alt=""></span>`;
     return `
       <article class="card">
@@ -782,7 +788,18 @@ function addToCalendar(i){
 }
 
 /* ── Flyer lightbox + mobile menu ── */
-function showFlyer(src,alt){ const d = document.getElementById('lightbox'); const im = document.getElementById('lightbox-img'); im.src = src; im.alt = alt; d.showModal(); }
+function showFlyer(src, alt, link){
+  const d = document.getElementById('lightbox'), im = document.getElementById('lightbox-img');
+  im.onerror = () => { d.close(); if(link) window.open(link, '_blank', 'noopener'); };   // if the large picture won't load, open the flyer in Google Drive instead
+  im.src = src; im.alt = alt; d.showModal();
+}
+/* A Drive flyer that Google won't show as a picture: swap in the club-sign tile / leaf icon. */
+function flyerFailed(img){
+  const panel = img.closest('.next-flyer');
+  if(panel){ panel.classList.add('next-decor'); panel.innerHTML = '<img src="assets/decor/hanging-sign.png" alt="">'; return; }
+  const t = img.closest('.thumb');
+  if(t) t.outerHTML = '<span class="thumb icon"><img src="assets/decor/oak-leaf.png" alt=""></span>';
+}
 document.getElementById('lightbox').addEventListener('click', e => { if(e.target.tagName === 'DIALOG') e.target.close(); });
 /* ── Slim menu bar that stays at the top once the full header scrolls away ── */
 (function(){
