@@ -62,9 +62,18 @@ section{padding:72px 0}
 .on-dark .tbc{color:var(--gold);border-color:var(--gold)}
 
 /* Header */
-.site-head{background:var(--stone);border-bottom:1px solid var(--dstone)}
+.site-head{background:var(--stone);border-bottom:1px solid var(--dstone);z-index:40}
 .site-head .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:14px;padding-bottom:14px}
 .logo img{width:132px;height:auto}
+.logo .logo-mark{display:none;width:84px}
+/* Once the full header has scrolled away, a slim bar with the building mark stays at the top.
+   #head-spacer keeps the header's original height so the page doesn't jump. */
+.site-head.stuck{position:fixed;top:0;left:0;right:0;box-shadow:0 4px 18px rgba(26,44,52,.14);animation:slideDown .25s ease}
+.site-head.stuck .wrap{padding-top:8px;padding-bottom:8px}
+.site-head.stuck .logo-full{display:none}
+.site-head.stuck .logo-mark{display:block}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:none}}
+main section[id],#hire,#find-us{scroll-margin-top:84px}   /* menu links land below the slim bar */
 .nav{display:flex;align-items:center;gap:26px}
 .nav a{text-decoration:none;color:var(--deep);font-weight:500;font-size:16px}
 .nav a:hover{color:var(--river);text-decoration:underline;text-underline-offset:4px}
@@ -207,6 +216,16 @@ dialog img{max-height:86vh;width:auto;margin:0 auto}
 dialog .close{position:absolute;top:10px;right:10px;background:var(--white);color:var(--deep);border:0;border-radius:999px;width:36px;height:36px;font-size:20px;cursor:pointer}
 
 /* Responsive */
+@media (max-width:1100px) and (min-width:941px){
+  .nav{gap:16px}
+  .nav a{font-size:15px}
+}
+@media (max-width:940px){   /* menu folds into the Menu button below this width */
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--stone);flex-direction:column;align-items:flex-start;padding:16px 24px 22px;gap:14px;border-bottom:1px solid var(--dstone);z-index:5}
+  .nav.open{display:flex}
+  .site-head{position:relative}
+  .menu-btn{display:inline-block}
+}
 @media (max-width:980px){
   .cards{grid-template-columns:repeat(2,1fr)}
   .months{grid-template-columns:repeat(4,1fr)}
@@ -218,11 +237,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
 @media (max-width:760px){
   body{font-size:16px}
   section{padding:56px 0}
-  .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--stone);flex-direction:column;align-items:flex-start;padding:16px 24px 22px;gap:14px;border-bottom:1px solid var(--dstone);z-index:5}
-  .nav.open{display:flex}
-  .site-head{position:relative}
-  .menu-btn{display:inline-block}
-  .logo img{width:120px}
+  .logo .logo-full{width:120px}
   .cards{grid-template-columns:1fr}
   .months{grid-template-columns:repeat(2,1fr)}
   .duo .wrap{grid-template-columns:1fr}
@@ -234,7 +249,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
   .site-foot .wrap{grid-template-columns:1fr}
   .mock .wrap{font-size:13px}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.site-head.stuck{animation:none}}
 </style>
 </head>
 <body>
@@ -245,20 +260,23 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
   <button type="button" onclick="document.getElementById('mock').remove()">Hide</button>
 </div></div>
 
-<header class="site-head">
+<div id="head-spacer">
+<header class="site-head" id="site-head">
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="Ashow Village Club, home"><img src="assets/brand/ashow-logo-primary.png" alt="Ashow Village Club"></a>
+    <a class="logo" href="#" aria-label="Ashow Village Club, back to the top"><img class="logo-full" src="assets/brand/ashow-logo-primary.png" alt="Ashow Village Club"><img class="logo-mark" src="assets/brand/ashow-mark.png" alt="Ashow Village Club"></a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" onclick="toggleNav(this)">Menu</button>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="#whats-on">What's on</a>
       <a href="#hours">Opening hours</a>
       <a href="#club">The club</a>
+      <a href="https://history.ashowvillageclub.co.uk/">History</a>
       <a href="#hire">Hire</a>
       <a href="#find-us">Find us</a>
       <a class="btn btn-ochre btn-sm" href="mailto:hello@ashowvillageclub.co.uk?subject=I%20would%20like%20to%20Join%20Ashow%20Club%20or%20Renew%20My%20Subscription">Join or renew</a>
     </nav>
   </div>
 </header>
+</div>
 
 <main id="top">
 
@@ -766,6 +784,15 @@ function addToCalendar(i){
 /* ── Flyer lightbox + mobile menu ── */
 function showFlyer(src,alt){ const d = document.getElementById('lightbox'); const im = document.getElementById('lightbox-img'); im.src = src; im.alt = alt; d.showModal(); }
 document.getElementById('lightbox').addEventListener('click', e => { if(e.target.tagName === 'DIALOG') e.target.close(); });
+/* ── Slim menu bar that stays at the top once the full header scrolls away ── */
+(function(){
+  const head = document.getElementById('site-head'), spacer = document.getElementById('head-spacer');
+  const fit = () => { if(!head.classList.contains('stuck')) spacer.style.height = head.offsetHeight + 'px'; };
+  const check = () => head.classList.toggle('stuck', window.scrollY > spacer.offsetTop + spacer.offsetHeight);
+  window.addEventListener('load', fit); window.addEventListener('resize', () => { head.classList.remove('stuck'); fit(); check(); });
+  window.addEventListener('scroll', check, {passive:true});
+  fit(); check();
+})();
 function toggleNav(btn){ const n = document.getElementById('nav'); const open = n.classList.toggle('open'); btn.setAttribute('aria-expanded', open); }
 document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', () => { document.getElementById('nav').classList.remove('open'); }));
 
