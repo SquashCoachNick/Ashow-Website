@@ -242,7 +242,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
       <a href="#club">The club</a>
       <a href="#hire">Hire</a>
       <a href="#find-us">Find us</a>
-      <a class="btn btn-ochre btn-sm" href="#join">Join or renew</a>
+      <a class="btn btn-ochre btn-sm" href="mailto:hello@ashowvillageclub.co.uk?subject=I%20would%20like%20to%20Join%20Ashow%20Club%20or%20Renew%20My%20Subscription">Join or renew</a>
     </nav>
   </div>
 </header>
@@ -302,7 +302,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
       </div>
       <div class="months" id="months"><!-- filled by script --></div>
       <div class="legend">
-        <span><i></i> Sunday lunchtime opening (summer)</span>
+        <span><i></i> Sunday lunchtime opening (Easter to end of September)</span>
         <span><i class="now"></i> This month</span>
       </div>
     </div>
@@ -313,7 +313,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
     <div class="wrap">
       <div>
         <p class="eyebrow">When we're open</p>
-        <h2 id="hours-title">Opening <em>hours</em> <span class="tbc">TBC</span></h2>
+        <h2 id="hours-title">Opening <em>hours</em></h2>
         <p style="margin-top:14px;max-width:44ch">The bar is run by volunteers. Hours can change for events, and any changes are posted here.</p>
         <div class="note-card">
           <h3>A members' club</h3>
@@ -341,8 +341,9 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
       <div class="join-card">
         <img src="assets/brand/ashow-logo-reversed.png" alt="">
         <p>Annual membership <span class="tbc">£ TBC</span></p>
-        <p style="font-size:15px;margin-top:6px">Join or renew online in a couple of minutes.</p>
-        <a class="btn btn-ochre" href="#join">Join or renew online <span class="tbc">link TBC</span></a>
+        <p style="font-size:15px;margin-top:6px">Send us an email and a committee member will get you signed up or renewed.</p>
+        <a class="btn btn-ochre" href="mailto:hello@ashowvillageclub.co.uk?subject=I%20would%20like%20to%20Join%20Ashow%20Club%20or%20Renew%20My%20Subscription">Email to join or renew</a>
+        <p style="font-size:14px;margin-top:10px"><a href="mailto:hello@ashowvillageclub.co.uk?subject=I%20would%20like%20to%20Join%20Ashow%20Club%20or%20Renew%20My%20Subscription" style="color:var(--white)">hello@ashowvillageclub.co.uk</a></p>
       </div>
     </div>
   </section>
@@ -376,13 +377,13 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
         <p class="eyebrow">Private occasions</p>
         <h2>Hire the <em>club</em></h2>
         <p>Members can hire the club for birthdays, anniversaries and family gatherings for themselves and their guests.</p>
-        <p>Email <a href="mailto:hire@ashowvillageclub.co.uk">hire@ashowvillageclub.co.uk</a> with your date and numbers, and a committee member will get back to you.</p>
+        <p>Email <a href="mailto:hello@ashowvillageclub.co.uk?subject=Hire%20enquiry">hello@ashowvillageclub.co.uk</a> with your date and numbers, and a committee member will get back to you.</p>
       </div>
       <div class="panel" id="find-us">
         <p class="eyebrow">Find us</p>
         <h2>On the village <em>lane</em></h2>
         <address>Ashow Village Club<br>Ashow, Kenilworth<br>Warwickshire CV8 2LE <span class="tbc">street TBC</span></address>
-        <p style="margin-top:12px">General enquiries: <a href="mailto:info@ashowvillageclub.co.uk">info@ashowvillageclub.co.uk</a></p>
+        <p style="margin-top:12px">General enquiries: <a href="mailto:hello@ashowvillageclub.co.uk">hello@ashowvillageclub.co.uk</a></p>
       </div>
     </div>
   </section>
@@ -430,7 +431,7 @@ const EVENTS = [
   // Past events (hidden automatically once the date has gone)
   {date:'2026-03-10', month:'2026-03', title:'Talk: Ashow Past, Properties and People', time:'7.30pm for an 8pm start', start:'19:30', end:'21:30', summary:'David Clarke on the village, its houses and its people. Club open from 6pm.', flyer:'assets/events/talk-david-clarke-2026.jpg', regular:false},
   {date:'2026-03-14', month:'2026-03', title:'Six Nations Super Saturday', time:'Bar open 4.30pm', start:'16:30', end:'22:30', summary:'Wales v Italy and France v England on the screen, pizza between games.', flyer:'assets/events/six-nations-2026.jpg', regular:true},
-  {date:'2026-05-03', month:'2026-05', title:'May Day BBQ', time:'Bar 1pm · BBQ from 3pm', start:'13:00', end:'18:00', price:'£5', summary:'Members\' BBQ marking the start of Sunday lunchtime opening. Part of every ticket goes to Myton Hospice.', flyer:'assets/events/may-day-bbq-2026.jpg', regular:true},
+  {date:'2026-05-03', month:'2026-05', title:'May Day BBQ', time:'Bar 1pm · BBQ from 3pm', start:'13:00', end:'18:00', price:'£5', summary:'Members\' BBQ to welcome the summer. Part of every ticket goes to Myton Hospice.', flyer:'assets/events/may-day-bbq-2026.jpg', regular:true},
   {date:'2026-07-18', month:'2026-07', title:'Quiz Night in the Garden', time:'Open 5pm · quiz 6pm', start:'17:00', end:'22:00', price:'£5pp, teams of 4', summary:'Quiz in the garden with a pizza break.', regular:true},
   {date:'2026-09-18', month:'2026-09', title:'Ashow Golf Open & Curry Night', time:'First tee 12.13pm · curry 7pm', start:'12:13', end:'22:00', price:'£35 golf · £50 with curry', summary:'Golf at Stoneleigh Deer Park, then curry back at the club.', regular:true},
 
@@ -441,7 +442,7 @@ const EVENTS = [
   {date:'', month:'2026-11', when:'November', title:'Curry Night', summary:'Curry at the club. Places are limited, so book early.', regular:true},
   {date:'', month:'2027-03', when:'March', title:'Six Nations Super Saturday', summary:'The final weekend of the Six Nations on the big screen.', regular:true},
   {date:'', month:'2027-04', when:'April', title:'Fish & Chip Night', summary:'Fish, sausage or halloumi and chips at the club.', regular:true},
-  {date:'', month:'2027-05', when:'Early May', title:'May Day BBQ', summary:'The members\' BBQ that opens the Sunday lunchtime season.', regular:true},
+  {date:'', month:'2027-05', when:'Early May', title:'May Day BBQ', summary:'The members\' BBQ to welcome the summer.', regular:true},
   {date:'', month:'2027-07', when:'July', title:'Quiz Night in the Garden', summary:'The summer quiz, teams of four.', regular:true},
   {date:'', month:'2027-09', when:'September', title:'Ashow Golf Open', summary:'Golf at Stoneleigh Deer Park, then curry at the club.', regular:true},
   {date:'', month:'2027-09', when:'Late September', title:'The Last Tea & Scones', summary:'Closing the Sunday lunchtime season.', regular:true},
@@ -452,13 +453,25 @@ const DEFAULTS = {
   book:'Book on the club WhatsApp; pay online with the club payment link (TBC)'
 };
 
-/* OPENING HOURS: 0 = Sunday … 6 = Saturday. Times need confirming (TBC). */
+/* OPENING HOURS (confirmed by the committee): 0 = Sunday … 6 = Saturday. */
 const HOURS = [
-  {day:2, label:'Tuesday',  text:'6pm – 9pm',    open:'18:00', close:'21:00'},
-  {day:5, label:'Friday',   text:'6pm – late',   open:'18:00', close:'23:30'},
-  {day:0, label:'Sunday',   text:'6pm – late',   open:'18:00', close:'23:30'},
+  {day:2, label:'Tuesday', text:'6pm – 9.30pm'},
+  {day:5, label:'Friday',  text:'6pm – late'},
+  {day:0, label:'Sunday',  text:'8pm – late'},
 ];
-const SUMMER_SUNDAY = {label:'Sunday lunchtime (May – September)', text:'11am – 3pm', open:'11:00', close:'15:00', months:[4,5,6,7,8]};
+/* Sunday lunchtimes run from Easter Sunday to the end of September. */
+const SUMMER_SUNDAY = {label:'Sunday lunchtimes, Easter to end of September', text:'1pm – 3pm'};
+function easterSunday(y){ // Anonymous Gregorian algorithm
+  const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
+        h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),
+        mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;
+  return new Date(y,mo-1,da);
+}
+function inLunchSeason(date){
+  const start = easterSunday(date.getFullYear()), end = new Date(date.getFullYear(),8,30);
+  return date >= start && date <= end;
+}
+function lunchSeasonMonths(y){ const s = easterSunday(y).getMonth(); return Array.from({length:9-s},(_,i)=>s+i); } // Easter month … September
 
 /* ── helpers ── */
 const today = new Date(); today.setHours(0,0,0,0);
@@ -545,7 +558,7 @@ function renderYear(){
   const now = today.getMonth();
   document.getElementById('months').innerHTML = byMonth.map((set,m) => {
     const items = [...set];
-    const summer = SUMMER_SUNDAY.months.includes(m);
+    const summer = lunchSeasonMonths(today.getFullYear()).includes(m);
     return `<div class="month${m===now?' now':''}${summer?' summer':''}">
       <h3>${MONTHS[m].slice(0,3)}${m===now?'<span>Now</span>':''}</h3>
       <ul>${items.length ? items.map(t=>`<li>${esc(t)}</li>`).join('') : '<li class="none">No regular fixture</li>'}</ul>
@@ -555,25 +568,28 @@ function renderYear(){
 
 /* ── Opening hours + "open tonight" status ── */
 function renderHours(){
-  const dow = new Date().getDay(), m = new Date().getMonth();
+  const now = new Date(), dow = now.getDay(), season = inLunchSeason(today);
   const order = [1,2,3,4,5,6,0];
   const names = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const rows = order.map(d => {
+  const dayText = (d, inSeason) => {
     const h = HOURS.find(x => x.day === d);
-    let text = h ? h.text : 'Closed';
-    if(d === 0) text = (SUMMER_SUNDAY.months.includes(m) ? SUMMER_SUNDAY.text + ' and ' : '') + h.text;
-    return `<tr class="${d===dow?'today':''}"><th scope="row">${names[d]}</th><td class="${h?'':'closed'}">${text}</td></tr>`;
+    if(!h) return null;
+    return d === 0 && inSeason ? SUMMER_SUNDAY.text + ' and ' + h.text : h.text;
+  };
+  const rows = order.map(d => {
+    const t = dayText(d, season);
+    return `<tr class="${d===dow?'today':''}"><th scope="row">${names[d]}</th><td class="${t?'':'closed'}">${t || 'Closed'}</td></tr>`;
   }).join('') + `<tr><th scope="row" style="font-weight:500">${SUMMER_SUNDAY.label}</th><td>${SUMMER_SUNDAY.text}</td></tr>`;
   document.querySelector('#hours-table tbody').innerHTML = rows;
 
-  const h = HOURS.find(x => x.day === dow);
-  const st = document.getElementById('status');
-  if(h){ document.getElementById('status-text').textContent = 'Open tonight, ' + h.text; }
+  const st = document.getElementById('status'), txt = document.getElementById('status-text');
+  const t = dayText(dow, season);
+  if(t){ txt.textContent = (t.includes(' and ') ? 'Open today, ' : 'Open tonight, ') + t; }
   else{
-    let n = 1; while(!HOURS.find(x => x.day === (dow+n)%7)) n++;
-    const nx = HOURS.find(x => x.day === (dow+n)%7);
+    let n = 1; while(!dayText((dow+n)%7, season)) n++;
+    const nd = (dow+n)%7;
     st.classList.add('closed');
-    document.getElementById('status-text').textContent = 'Closed tonight · next open ' + (n===1?'tomorrow':nx.label) + ', ' + nx.text;
+    txt.textContent = 'Closed today · next open ' + (n===1 ? 'tomorrow' : names[nd]) + ', ' + dayText(nd, season);
   }
 }
 
