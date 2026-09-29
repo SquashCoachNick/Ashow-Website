@@ -32,7 +32,17 @@ a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .mock b{color:var(--gold)}
 .tbc{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.08em;color:var(--ochre);border:1.5px dashed var(--ochre);border-radius:3px;padding:3px 5px;vertical-align:middle;margin-left:4px}
 main{padding:56px 0 72px}
-article{max-width:720px}
+article{min-width:0}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:56px;align-items:start}
+.toc{position:sticky;top:24px;background:var(--white);border:1px solid var(--dstone);border-radius:10px;padding:20px 22px;font-size:15px}
+.toc h2{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.toc ul{list-style:none;padding:0;margin:0}
+.toc li+li{margin-top:8px}
+.toc a{text-decoration:none}
+.toc a:hover{text-decoration:underline;text-underline-offset:3px}
+.toc .ask{margin-top:18px;padding-top:16px;border-top:1px solid var(--dstone);color:var(--muted)}
+h2[id]{scroll-margin-top:24px}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.toc{display:none}}
 .eyebrow{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 h1{font-family:var(--serif);font-weight:300;font-size:clamp(34px,5vw,48px);line-height:1.1;color:var(--river);margin:10px 0 14px}
 h1 em{font-style:italic;font-weight:400;color:var(--ochre)}
@@ -76,7 +86,7 @@ tr:last-child td{border-bottom:0}
 </header>
 
 <main>
-  <div class="wrap">
+  <div class="wrap layout">
     <article>
       <p class="eyebrow">Privacy notice</p>
       <h1>Your information, <em>looked after</em></h1>
@@ -93,11 +103,11 @@ tr:last-child td{border-bottom:0}
         </ul>
       </div>
 
-      <h2>Who we are</h2>
+      <h2 id="who">Who we are</h2>
       <p>Ashow Village Club and Reading Room ("the club", "we") is a private members' club in Ashow, Kenilworth, Warwickshire CV8 2LE, run by a volunteer committee elected at the AGM. The club is responsible for the personal information described here. For anything about privacy, email <a href="mailto:hello@ashowvillageclub.co.uk?subject=Privacy">hello@ashowvillageclub.co.uk</a> and a committee member will reply.</p>
       <p>The club is registered with the Information Commissioner's Office (registration number <span class="tbc">TBC</span>).</p>
 
-      <h2>What we hold, why, and for how long</h2>
+      <h2 id="what">What we hold, why, and for how long</h2>
       <table>
         <thead><tr><th>Who</th><th>What we hold and why</th><th>How long</th></tr></thead>
         <tbody>
@@ -139,7 +149,7 @@ tr:last-child td{border-bottom:0}
         </tbody>
       </table>
 
-      <h2>Our lawful reasons</h2>
+      <h2 id="lawful">Our lawful reasons</h2>
       <ul>
         <li><strong>Membership and bookings:</strong> it's necessary to provide what you've asked for (your membership, a place at an event, or a hire).</li>
         <li><strong>Club records and accounts:</strong> to meet our legal obligations, for example keeping financial records.</li>
@@ -148,7 +158,7 @@ tr:last-child td{border-bottom:0}
         <li><strong>Photos:</strong> your consent, which you can withdraw at any time.</li>
       </ul>
 
-      <h2>This website</h2>
+      <h2 id="website">This website</h2>
       <p>The website doesn't set cookies, and we don't use analytics or advertising tools. It does rely on a few outside services, which will see your device's IP address when you visit:</p>
       <ul>
         <li><strong>GitHub Pages</strong> hosts the website and keeps short-term server logs, including IP addresses, for security.</li>
@@ -157,7 +167,7 @@ tr:last-child td{border-bottom:0}
       </ul>
       <p>The "Add to calendar" buttons only contact Google or Microsoft if you choose one of them. The Apple and other option creates the calendar file on your own device.</p>
 
-      <h2>Who else sees your information</h2>
+      <h2 id="sharing">Who else sees your information</h2>
       <p>Only committee members who need it for their role, plus the services we use to run the club:</p>
       <ul>
         <li><strong>Google</strong> (email, calendar, forms and documents for club records)</li>
@@ -168,7 +178,7 @@ tr:last-child td{border-bottom:0}
       <p>If there's an incident, CCTV recordings may be shared with the police or the club's insurers.</p>
       <p>Some of these providers store information outside the UK, mainly in the United States. They do so under recognised safeguards, such as the UK-US data bridge or standard contractual clauses. We never sell or share your information for marketing, and we only pass it to anyone else if the law requires it.</p>
 
-      <h2>Your rights</h2>
+      <h2 id="rights">Your rights</h2>
       <p>You can ask us to:</p>
       <ul>
         <li>give you a copy of the information we hold about you</li>
@@ -180,11 +190,24 @@ tr:last-child td{border-bottom:0}
       <p>Email <a href="mailto:hello@ashowvillageclub.co.uk?subject=Privacy%20request">hello@ashowvillageclub.co.uk</a> and we'll reply within one month. There's no charge. If you'd like a copy of CCTV footage of yourself, please tell us the date and roughly what time you were at the club.</p>
       <p>If you're unhappy with how we've handled your information, please tell us first and we'll try to put it right. You can also complain to the Information Commissioner's Office at <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">ico.org.uk/make-a-complaint</a> or on 0303 123 1113.</p>
 
-      <h2>Changes to this notice</h2>
+      <h2 id="changes">Changes to this notice</h2>
       <p>We'll update this page if the way we use information changes. The date below shows when it was last updated.</p>
 
       <p class="updated">Last updated: September 2026</p>
     </article>
+    <aside class="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#who">Who we are</a></li>
+        <li><a href="#what">What we hold and for how long</a></li>
+        <li><a href="#lawful">Our lawful reasons</a></li>
+        <li><a href="#website">This website</a></li>
+        <li><a href="#sharing">Who else sees your information</a></li>
+        <li><a href="#rights">Your rights</a></li>
+        <li><a href="#changes">Changes to this notice</a></li>
+      </ul>
+      <p class="ask">Questions? Email <a href="mailto:hello@ashowvillageclub.co.uk?subject=Privacy">hello@ashowvillageclub.co.uk</a></p>
+    </aside>
   </div>
 </main>
 
