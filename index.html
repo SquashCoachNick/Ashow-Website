@@ -103,7 +103,18 @@ section{padding:72px 0}
 
 /* What's on */
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{background:var(--white);border:1px solid var(--dstone);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.card{background:var(--white);border:1px solid var(--dstone);border-radius:10px;display:flex;flex-direction:column}
+/* Add-to-calendar menu */
+.cal{position:relative;display:inline-block}
+.cal summary{list-style:none}
+.cal summary::-webkit-details-marker{display:none}
+.cal summary::after{content:"▾";font-size:12px;margin-left:2px}
+.cal-menu{position:absolute;z-index:20;top:calc(100% + 6px);left:0;min-width:230px;background:var(--white);border:1px solid var(--dstone);border-radius:8px;box-shadow:0 10px 28px rgba(26,44,52,.18);padding:6px;display:flex;flex-direction:column}
+.card .cal-menu{left:auto;right:0}
+.next-card .cal-menu{top:auto;bottom:calc(100% + 6px)}   /* opens upwards so the card's rounded corners don't clip it */
+.cal-menu a,.cal-menu button{display:block;text-align:left;padding:10px 12px;font:500 15px/1.3 var(--sans);color:var(--deep);background:none;border:0;border-radius:6px;text-decoration:none;cursor:pointer}
+.cal-menu a:hover,.cal-menu button:hover{background:var(--stone)}
+.cal-menu small{display:block;font-size:12px;color:var(--muted);font-weight:400}
 .card-top{display:flex;gap:16px;padding:20px 20px 0}
 .datebox{flex:0 0 66px;height:72px;border-radius:8px;background:var(--river);color:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1}
 .datebox .d{font-family:var(--serif);font-size:30px}
@@ -228,7 +239,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
 
 <!-- PREVIEW NOTICE: remove before launch -->
 <div class="mock" id="mock"><div class="wrap">
-  <span><b>Committee preview</b> · not yet public · events are samples from recent flyers · <span class="tbc" style="color:var(--gold);border-color:var(--gold)">TBC</span> = needs a committee decision · <a href="mailto:ashowvillageemails@gmail.com?subject=Website%20preview%20feedback" style="color:var(--gold)">Send feedback</a></span>
+  <span><b>Committee preview</b> · not yet public · <span id="events-source">events are samples from recent flyers</span> · <span class="tbc" style="color:var(--gold);border-color:var(--gold)">TBC</span> = needs a committee decision · <a href="mailto:ashowvillageemails@gmail.com?subject=Website%20preview%20feedback" style="color:var(--gold)">Send feedback</a></span>
   <button type="button" onclick="document.getElementById('mock').remove()">Hide</button>
 </div></div>
 
@@ -420,14 +431,33 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
 
 <script>
 /* ─────────────────────────────────────────────────────────────────────────
-   EVENTS: one row per event. In the live site this list will come from a
-   shared Google Sheet the committee edits (same columns), so nobody needs to
-   touch this file. Sample data below is taken from the club's recent flyers.
-   date:   YYYY-MM-DD when confirmed, blank when not
-   month:  YYYY-MM, used for ordering and "The year at the club"
-   regular: true if it happens every year
+   EVENTS come from the club's shared Google Calendar ("Ashow Village Club:
+   What's on"). Committee members add events there; nobody edits this file.
+
+   How the calendar is read:
+     Title .............. event name. Start it with "TBC" when the date isn't
+                          fixed (make it an all-day event in the right month).
+     Date / time ........ when it happens (all-day events are fine).
+     Location ........... leave blank for the club, or type another venue.
+     Description ........ first lines = the summary shown on the site, plus
+                          optional lines such as
+                            Price: £15        Booking: Reply on the club WhatsApp
+                            Who: Members only Regular: yes   When: Early November
+     Attachment ......... a flyer from Google Drive (shown as "View the flyer").
+
+   The API key below is public by design: Google restricts it to the club's
+   web addresses and to reading public calendar data only.
    ───────────────────────────────────────────────────────────────────────── */
-const EVENTS = [
+const CALENDAR = {
+  id:  '5f9919f72dd19a83ae6f0516050f78610c7be0f88eb391426b7f391eb1e6d20f@group.calendar.google.com',
+  key: 'AIzaSyCPbkqeiGf3Zmqvep7YwZoQzqHEtUVeh90',
+};
+/* PREVIEW ONLY: show the sample events below if the calendar can't be read
+   or has nothing coming up. Set to false at launch so no sample ever shows. */
+const USE_SAMPLES = true;
+
+/* Sample events taken from the club's recent flyers (used only when USE_SAMPLES is on). */
+const SAMPLE_EVENTS = [
   // Past events (hidden automatically once the date has gone)
   {date:'2026-03-10', month:'2026-03', title:'Talk: Ashow Past, Properties and People', time:'7.30pm for an 8pm start', start:'19:30', end:'21:30', summary:'David Clarke on the village, its houses and its people. Club open from 6pm.', flyer:'assets/events/talk-david-clarke-2026.jpg', regular:false},
   {date:'2026-03-14', month:'2026-03', title:'Six Nations Super Saturday', time:'Bar open 4.30pm', start:'16:30', end:'22:30', summary:'Wales v Italy and France v England on the screen, pizza between games.', flyer:'assets/events/six-nations-2026.jpg', regular:true},
@@ -481,21 +511,91 @@ const parse = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const fmtLong = s => parse(s).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
 const esc = s => String(s ?? '').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const withTbc = s => esc(s).replace('(TBC)','<span class="tbc">TBC</span>');
 const sortKey = e => e.date || (e.month + '-28');
 
-const upcoming = EVENTS
-  .filter(e => e.date ? e.date >= todayISO : e.month >= thisMonth)
-  .sort((a,b) => sortKey(a).localeCompare(sortKey(b)));
-const nextUp = upcoming.find(e => e.date);
-const rest = upcoming.filter(e => e !== nextUp).slice(0,6);
+const linkify = s => esc(s).replace(/https?:\/\/[^\s<]+/g, u => `<a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\//,'').slice(0,40)}${u.length>48?'…':''}</a>`);
+const withTbc = s => linkify(s).replace('(TBC)','<span class="tbc">TBC</span>');
+const isUpcoming = e => e.date ? e.date >= todayISO : e.month >= thisMonth;
+
+let EVENTS = [], upcoming = [], nextUp = null, rest = [], SOURCE = 'none';
+function computeLists(){
+  upcoming = EVENTS.filter(isUpcoming).sort((a,b) => sortKey(a).localeCompare(sortKey(b)));
+  nextUp = upcoming.find(e => e.date) || null;
+  rest = upcoming.filter(e => e !== nextUp).slice(0,6);
+}
+
+/* ── Read the club calendar ── */
+const pad = n => String(n).padStart(2,'0');
+const hhmm = d => pad(d.getHours()) + ':' + pad(d.getMinutes());
+const fmtT = d => { const h = d.getHours(), m = d.getMinutes(); return (h % 12 || 12) + (m ? '.' + pad(m) : '') + (h < 12 ? 'am' : 'pm'); };
+function textFromHtml(h){
+  const d = document.createElement('div');
+  d.innerHTML = String(h || '').replace(/<br\s*\/?>/gi,'\n').replace(/<\/(p|div|li)>/gi,'\n');
+  return d.textContent;
+}
+const FIELDS = [
+  [/^(price|cost|costs|tickets?|entry)\s*[:\-–]\s*/i, 'price'],
+  [/^(booking|book|how to book|to book|rsvp)\s*[:\-–]\s*/i, 'book'],
+  [/^(who|open to|for)\s*[:\-–]\s*/i, 'who'],
+  [/^(regular|annual|every year)\s*[:\-–]\s*/i, 'regular'],
+  [/^(when)\s*[:\-–]\s*/i, 'when'],
+  [/^(flyer|poster)\s*[:\-–]\s*/i, 'flyerLink'],
+];
+function fromGoogle(it){
+  const e = {};
+  const rawTitle = (it.summary || 'Club event').trim();
+  const tbc = /^\s*tbc\b[\s:\-–]*/i.test(rawTitle);
+  e.title = rawTitle.replace(/^\s*tbc\b[\s:\-–]*/i,'').trim() || 'Club event';
+  const allDay = !!(it.start && it.start.date);
+  const s = allDay ? parse(it.start.date) : new Date(it.start.dateTime);
+  const en = it.end ? (allDay ? parse(it.end.date) : new Date(it.end.dateTime)) : null;
+  e.month = iso(s).slice(0,7);
+  if(tbc){ e.date = ''; e.when = MONTHS[s.getMonth()]; }
+  else{
+    e.date = iso(s);
+    if(allDay){ e.allDay = true; e.time = 'All day'; }
+    else{ e.start = hhmm(s); e.end = en ? hhmm(en) : ''; e.time = fmtT(s) + (en && en > s ? ' – ' + fmtT(en) : ''); }
+  }
+  if(it.location && !/ashow village club/i.test(it.location)) e.where = it.location;
+  const summary = [];
+  textFromHtml(it.description).split('\n').map(l => l.trim()).filter(Boolean).forEach(line => {
+    if(/^£/.test(line)){ e.price = line; return; }
+    const f = FIELDS.find(([re]) => re.test(line));
+    if(f) e[f[1]] = line.replace(f[0],'').trim();
+    else summary.push(line);
+  });
+  e.summary = summary.join(' ');
+  e.regular = /^(y|yes|true)/i.test(e.regular || '') || !!it.recurringEventId;
+  if(!e.flyerLink && it.attachments && it.attachments.length) e.flyerLink = it.attachments[0].fileUrl;
+  return e;
+}
+async function loadEvents(){
+  const from = new Date(today); from.setMonth(from.getMonth() - 12);   // last year's fixtures feed "The year at the club"
+  const to = new Date(today); to.setMonth(to.getMonth() + 13);
+  const url = 'https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent(CALENDAR.id) + '/events?' +
+    new URLSearchParams({key:CALENDAR.key, singleEvents:'true', orderBy:'startTime', timeMin:from.toISOString(), timeMax:to.toISOString(), maxResults:'250'});
+  try{
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('calendar returned ' + r.status);
+    const data = await r.json();
+    const evs = (data.items || []).filter(it => it.status !== 'cancelled' && it.start).map(fromGoogle);
+    if(evs.some(isUpcoming) || !USE_SAMPLES){ EVENTS = evs; SOURCE = 'calendar'; return; }
+    throw new Error('no upcoming events in the calendar yet');
+  }catch(err){
+    console.warn('Club calendar not used:', err.message);
+    EVENTS = USE_SAMPLES ? SAMPLE_EVENTS : []; SOURCE = USE_SAMPLES ? 'samples' : 'error';
+  }
+}
 
 /* ── Next up ── */
 function daysUntil(s){ return Math.round((parse(s) - today) / 86400000); }
 function countdownText(s){ const n = daysUntil(s); return n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : 'In ' + n + ' days'; }
 function renderNext(){
   const el = document.getElementById('next-card');
-  if(!nextUp){ el.innerHTML = '<div class="next-body"><p class="empty">No confirmed events just now: check the schedule below.</p></div>'; return; }
+  if(!nextUp){
+    el.innerHTML = `<div class="next-body"><p class="empty">${SOURCE === 'error' ? 'Events couldn\'t be loaded just now. Please try again later.' : 'No confirmed dates just now. See the schedule below for what\'s coming.'}</p></div>`;
+    return;
+  }
   const e = {...DEFAULTS, ...nextUp};
   el.innerHTML = `
     ${e.flyer ? `<div class="next-flyer"><button type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')" aria-label="View the ${esc(e.title)} flyer"><img src="${e.flyer}" alt="Flyer for ${esc(e.title)}"></button></div>` : ''}
@@ -512,8 +612,9 @@ function renderNext(){
         <div style="grid-column:1/-1"><dt>How to book</dt><dd>${withTbc(e.book)}</dd></div>
       </dl>
       <div class="actions">
-        <button class="btn btn-ochre" type="button" onclick="addToCalendar(${EVENTS.indexOf(nextUp)})">Add to my calendar</button>
-        ${e.flyer ? `<button class="btn btn-line" type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')">View the flyer</button>` : ''}
+        ${calMenu(EVENTS.indexOf(nextUp), 'btn btn-ochre', 'Add to my calendar')}
+        ${e.flyer ? `<button class="btn btn-line" type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')">View the flyer</button>`
+          : e.flyerLink ? `<a class="btn btn-line" href="${esc(e.flyerLink)}" target="_blank" rel="noopener">View the flyer</a>` : ''}
       </div>
     </div>`;
 }
@@ -543,9 +644,10 @@ function renderCards(){
           ${confirmed ? `<p class="book"><b>How to book:</b> ${withTbc(e.book)}</p>` : `<p class="book">Details and booking will be posted here nearer the time.</p>`}
           <div class="card-foot">
             <span class="who">${esc(e.who)}</span>
-            ${confirmed ? `<button class="btn btn-line btn-sm" type="button" onclick="addToCalendar(${EVENTS.indexOf(ev)})">Add to calendar</button>` : thumb}
+            ${confirmed ? calMenu(EVENTS.indexOf(ev), 'btn btn-line btn-sm', 'Add to calendar') : thumb}
           </div>
           ${confirmed && e.flyer ? `<div>${thumb}</div>` : ''}
+          ${e.flyerLink && !e.flyer ? `<p class="who"><a href="${esc(e.flyerLink)}" target="_blank" rel="noopener">View the flyer</a></p>` : ''}
         </div>
       </article>`;
   }).join('');
@@ -553,11 +655,14 @@ function renderCards(){
 
 /* ── The year at the club (regular fixtures by calendar month) ── */
 function renderYear(){
-  const byMonth = Array.from({length:12}, () => new Set());
-  EVENTS.filter(e => e.regular).forEach(e => byMonth[Number(e.month.slice(5))-1].add(e.title.replace(' & Curry Night','')));
+  const byMonth = Array.from({length:12}, () => new Map());   // one entry per title per month
+  EVENTS.filter(e => e.regular).forEach(e => {
+    const t = e.title.replace(/\s*&\s*Curry Night$/i,'');
+    byMonth[Number(e.month.slice(5))-1].set(t.toLowerCase(), t);
+  });
   const now = today.getMonth();
   document.getElementById('months').innerHTML = byMonth.map((set,m) => {
-    const items = [...set];
+    const items = [...set.values()];
     const summer = lunchSeasonMonths(today.getFullYear()).includes(m);
     return `<div class="month${m===now?' now':''}${summer?' summer':''}">
       <h3>${MONTHS[m].slice(0,3)}${m===now?'<span>Now</span>':''}</h3>
@@ -593,16 +698,45 @@ function renderHours(){
   }
 }
 
-/* ── Add to calendar (.ics download) ── */
+/* ── Add to calendar: Google Calendar link, or .ics file for Apple / Outlook / others ── */
+const placeText = e => e.where === DEFAULTS.where ? 'Ashow Village Club, Ashow, Kenilworth CV8 2LE' : e.where;
+const siteLink = () => location.origin.startsWith('http') ? location.origin : 'https://ashowvillageclub.co.uk';
+const nextDay = s => { const d = parse(s); d.setDate(d.getDate()+1); return iso(d); };
+function googleCalUrl(i){
+  const e = {...DEFAULTS, ...EVENTS[i]};
+  const t = (d,h) => d.replace(/-/g,'') + 'T' + (h||'19:00').replace(':','') + '00';
+  const p = new URLSearchParams({
+    action:'TEMPLATE', text:e.title,
+    dates: e.allDay ? e.date.replace(/-/g,'') + '/' + nextDay(e.date).replace(/-/g,'') : t(e.date,e.start) + '/' + t(e.date,e.end||e.start),
+    ctz:'Europe/London',
+    details:(e.summary||'') + (e.time ? '\n\n' + e.time : '') + '\n\nMore at ' + siteLink(),
+    location:placeText(e)
+  });
+  return 'https://calendar.google.com/calendar/render?' + p.toString();
+}
+function calMenu(i, cls, label){
+  return `<details class="cal"><summary class="${cls}">${label}</summary>
+    <div class="cal-menu">
+      <a href="${googleCalUrl(i)}" target="_blank" rel="noopener">Google Calendar<small>Opens Google Calendar to save it</small></a>
+      <button type="button" onclick="addToCalendar(${i})">Apple, Outlook or other<small>Downloads a calendar file</small></button>
+    </div></details>`;
+}
+document.addEventListener('click', ev => {
+  document.querySelectorAll('details.cal[open]').forEach(d => { if(!d.contains(ev.target)) d.removeAttribute('open'); });
+});
 function addToCalendar(i){
   const e = {...DEFAULTS, ...EVENTS[i]};
   const stamp = (d,t) => d.replace(/-/g,'') + 'T' + (t||'19:00').replace(':','') + '00';
+  const icsText = s => String(s||'').replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/[,;]/g,m => '\\' + m);
+  const when = e.allDay
+    ? ['DTSTART;VALUE=DATE:' + e.date.replace(/-/g,''), 'DTEND;VALUE=DATE:' + nextDay(e.date).replace(/-/g,'')]
+    : ['DTSTART:' + stamp(e.date,e.start), 'DTEND:' + stamp(e.date,e.end||e.start)];
   const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ashow Village Club//Events//EN','BEGIN:VEVENT',
     'UID:' + e.date + '-' + e.title.replace(/\W+/g,'-').toLowerCase() + '@ashowvillageclub.co.uk',
     'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g,'').slice(0,15) + 'Z',
-    'DTSTART:' + stamp(e.date,e.start), 'DTEND:' + stamp(e.date,e.end||e.start),
-    'SUMMARY:' + e.title, 'LOCATION:' + e.where + ', Ashow, Kenilworth CV8 2LE',
-    'DESCRIPTION:' + (e.summary||'').replace(/,/g,'\\,'),
+    ...when,
+    'SUMMARY:' + icsText(e.title), 'LOCATION:' + icsText(placeText(e)),
+    'DESCRIPTION:' + icsText((e.summary||'') + '\n\nMore at ' + siteLink()),
     'END:VEVENT','END:VCALENDAR'].join('\r\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));
@@ -617,7 +751,13 @@ function toggleNav(btn){ const n = document.getElementById('nav'); const open = 
 document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', () => { document.getElementById('nav').classList.remove('open'); }));
 
 document.getElementById('yr').textContent = today.getFullYear();
-renderNext(); renderCards(); renderYear(); renderHours();
+renderHours();
+document.getElementById('next-card').innerHTML = '<div class="next-body"><p class="empty">Loading what\'s on…</p></div>';
+loadEvents().then(() => {
+  computeLists(); renderNext(); renderCards(); renderYear();
+  const note = document.getElementById('events-source');
+  if(note) note.textContent = SOURCE === 'calendar' ? 'events come from the club calendar' : 'events are samples from recent flyers';
+});
 </script>
 </body>
 </html>
