@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ashow Village Club</title>
+<meta name="description" content="Ashow Village Club: the members' club at the heart of Ashow, Warwickshire. What's on, opening hours and membership.">
+<meta name="theme-color" content="#33566A">
+<!-- PREVIEW ONLY: stops search engines listing the preview. Remove at launch. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/brand/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Brand tokens (Ashow Village Club Brand Guidelines 2026, River Avon scheme) ── */
+:root{
+  --river:#33566A; --mid:#4F7183; --ochre:#8A5E18; --gold:#CF9F45; --deep:#1A2C34;
+  --stone:#F4EEE3; --dstone:#E9E0D0; --muted:#44565E; --white:#FFFFFF;
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter Tight',Arial,sans-serif;
+  --wrap:1160px; --r:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:17px;line-height:1.6;color:var(--deep);background:var(--stone);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:var(--river)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.15;color:var(--river)}
+h1{font-weight:300;font-size:clamp(38px,5.4vw,56px)}
+h2{font-size:clamp(28px,3.6vw,36px)}
+h3{font-size:22px}
+h1 em,h2 em{font-style:italic;color:var(--ochre)}
+.on-dark h1,.on-dark h2,.on-dark h3{color:var(--white)}
+.on-dark h1 em,.on-dark h2 em{color:var(--gold)}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.on-dark .eyebrow{color:var(--stone)}
+.lede{font-size:19px;max-width:40ch}
+section{padding:72px 0}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:32px}
+.section-head p{max-width:52ch;color:var(--muted)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 15px/1 var(--sans);text-decoration:none;padding:13px 20px;border-radius:var(--r);border:2px solid transparent;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.btn-ochre{background:var(--ochre);color:var(--white)}
+.btn-ochre:hover{background:#744E13}
+.btn-line{background:transparent;color:var(--river);border-color:var(--river)}
+.btn-line:hover{background:var(--river);color:var(--white)}
+.on-dark .btn-line{color:var(--white);border-color:rgba(255,255,255,.7)}
+.on-dark .btn-line:hover{background:var(--white);color:var(--river)}
+.btn-sm{padding:9px 14px;font-size:14px}
+
+/* Mock-up notice (remove before launch) */
+.mock{background:var(--deep);color:var(--stone);font-size:14px}
+.mock .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;padding-top:9px;padding-bottom:9px}
+.mock b{color:var(--gold);font-weight:600}
+.mock button{background:none;border:1px solid rgba(244,238,227,.5);color:var(--stone);border-radius:4px;padding:3px 9px;cursor:pointer;font:inherit}
+.tbc{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.08em;color:var(--ochre);border:1.5px dashed var(--ochre);border-radius:3px;padding:3px 5px;vertical-align:middle;margin-left:6px}
+.on-dark .tbc{color:var(--gold);border-color:var(--gold)}
+
+/* Header */
+.site-head{background:var(--stone);border-bottom:1px solid var(--dstone)}
+.site-head .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:14px;padding-bottom:14px}
+.logo img{width:132px;height:auto}
+.nav{display:flex;align-items:center;gap:26px}
+.nav a{text-decoration:none;color:var(--deep);font-weight:500;font-size:16px}
+.nav a:hover{color:var(--river);text-decoration:underline;text-underline-offset:4px}
+.menu-btn{display:none;background:none;border:2px solid var(--river);color:var(--river);border-radius:var(--r);padding:8px 12px;font:600 15px var(--sans);cursor:pointer}
+
+/* Hero */
+.hero{background:var(--river);padding:64px 0 120px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero h1{margin:14px 0 18px}
+.hero .lede{color:#E6EEF2}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.status{display:inline-flex;align-items:center;gap:10px;margin-top:26px;background:rgba(26,44,52,.45);color:var(--white);padding:9px 14px;border-radius:999px;font-size:15px}
+.status .dot{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.status.closed .dot{background:#9FB3BD}
+.hero-photo{border-radius:10px;overflow:hidden;box-shadow:0 20px 50px rgba(26,44,52,.35)}
+.hero-photo img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.hero-photo figcaption{background:var(--deep);color:var(--stone);font-size:13px;padding:8px 14px}
+
+/* Next up */
+.next{padding:0}
+.next-card{margin-top:-80px;background:var(--white);border-radius:12px;box-shadow:0 12px 40px rgba(26,44,52,.14);display:grid;grid-template-columns:260px 1fr;overflow:hidden;position:relative}
+.next-flyer{background:var(--dstone);display:flex;align-items:center;justify-content:center;padding:18px}
+.next-flyer button{border:0;background:none;padding:0;cursor:zoom-in}
+.next-flyer img{max-height:340px;width:auto;border-radius:4px;box-shadow:0 6px 18px rgba(26,44,52,.2)}
+.next-body{padding:34px 38px}
+.next-label{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pill{font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;background:var(--ochre);color:var(--white);padding:7px 10px;border-radius:4px}
+.countdown{font-weight:600;color:var(--river)}
+.next-date{font-family:var(--serif);font-size:20px;color:var(--muted);margin:16px 0 4px}
+.next-body h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:12px}
+.next-body > p{max-width:60ch}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px 28px;margin:22px 0 26px;padding:18px 0;border-top:1px solid var(--dstone);border-bottom:1px solid var(--dstone)}
+.facts dt{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.facts dd{font-size:16px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* What's on */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:var(--white);border:1px solid var(--dstone);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.card-top{display:flex;gap:16px;padding:20px 20px 0}
+.datebox{flex:0 0 66px;height:72px;border-radius:8px;background:var(--river);color:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1}
+.datebox .d{font-family:var(--serif);font-size:30px}
+.datebox .m{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-top:5px}
+.datebox.tbc-date{background:var(--dstone);color:var(--river)}
+.datebox.tbc-date .d{font-size:15px;font-family:var(--sans);font-weight:600;letter-spacing:.06em}
+.card h3{font-size:21px;margin-top:2px}
+.card .when{font-size:15px;color:var(--muted)}
+.card-body{padding:14px 20px 20px;display:flex;flex-direction:column;gap:12px;flex:1}
+.card-body p{font-size:16px}
+.card .book{font-size:15px;background:var(--stone);border-radius:6px;padding:10px 12px}
+.card .book b{font-weight:600}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto}
+.thumb{border:0;background:none;padding:0;cursor:zoom-in}
+.thumb img{width:54px;height:72px;object-fit:cover;border-radius:4px;border:1px solid var(--dstone)}
+.thumb.icon img{width:54px;height:54px;object-fit:contain;border:0;opacity:.9}
+.who{font-size:14px;color:var(--muted)}
+.empty{color:var(--muted)}
+
+/* Year at the club */
+.year{background:var(--dstone)}
+.months{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;position:relative}
+.month{background:var(--stone);border-radius:8px;padding:14px 14px 16px;min-height:132px;border:2px solid transparent;position:relative}
+.month.now{border-color:var(--river)}
+.month h3{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+.month.now h3{color:var(--river)}
+.month ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.month li{font-family:var(--serif);font-size:16px;line-height:1.25;color:var(--deep)}
+.month .none{font-size:14px;color:#8A9499;font-family:var(--sans)}
+.month.summer::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--ochre);border-radius:0 0 6px 6px}
+.legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{display:inline-block;width:22px;height:5px;background:var(--ochre);border-radius:3px}
+.legend i.now{height:14px;width:14px;background:none;border:2px solid var(--river);border-radius:3px}
+
+/* Hours */
+.hours .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.hours-table{width:100%;border-collapse:collapse;background:var(--white);border-radius:10px;overflow:hidden;border:1px solid var(--dstone)}
+.hours-table th,.hours-table td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--dstone);font-size:16px}
+.hours-table th{font-weight:600}
+.hours-table tr:last-child td,.hours-table tr:last-child th{border-bottom:0}
+.hours-table tr.today{background:#E6EEF2}
+.hours-table tr.today th::after{content:"Today";margin-left:10px;font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;background:var(--river);color:var(--white);padding:4px 6px;border-radius:3px;vertical-align:middle}
+.hours-table td.closed{color:#8A9499}
+.note-card{background:var(--white);border:1px solid var(--dstone);border-left:4px solid var(--ochre);border-radius:8px;padding:20px 22px;margin-top:18px}
+.note-card h3{font-size:20px;margin-bottom:6px}
+
+/* Membership */
+.join{background:var(--deep)}
+.join .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.join p{color:#DCE5E9}
+.perks{list-style:none;display:flex;flex-direction:column;gap:14px;margin:22px 0 28px}
+.perks li{display:flex;gap:12px;color:var(--white)}
+.perks li::before{content:"";flex:0 0 18px;height:2px;background:var(--gold);margin-top:13px}
+.join-card{background:var(--river);border-radius:12px;padding:30px}
+.join-card img{width:170px;margin:0 auto 16px}
+.join-card p{text-align:center}
+.join-card .btn{width:100%;justify-content:center;margin-top:18px}
+
+/* The club */
+.club .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
+.club figure img{border-radius:10px;width:100%;aspect-ratio:4/3;object-fit:cover}
+.club figure figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+.club p+p{margin-top:12px}
+.club .facts-list{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin:22px 0;font-size:15px}
+.club .facts-list b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* Hire + find us */
+.duo{background:var(--dstone)}
+.duo .wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.panel{background:var(--stone);border-radius:10px;padding:30px}
+.panel h2{font-size:30px;margin-bottom:10px}
+.panel p+p{margin-top:10px}
+.panel address{font-style:normal;margin-top:10px}
+
+/* Footer */
+.site-foot{background:var(--deep);color:#C9D3D8;padding:48px 0 28px;font-size:15px}
+.site-foot .wrap{display:grid;grid-template-columns:auto 1fr 1fr;gap:40px;align-items:start}
+.site-foot img{width:150px}
+.site-foot h3{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px}
+.site-foot a{color:var(--white)}
+.site-foot ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.site-foot .small{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.14);padding-top:18px;font-size:13px;color:#9FB0B8}
+
+/* Flyer lightbox */
+dialog{border:0;border-radius:10px;padding:0;max-width:min(92vw,620px);background:var(--deep)}
+dialog::backdrop{background:rgba(26,44,52,.8)}
+dialog img{max-height:86vh;width:auto;margin:0 auto}
+dialog .close{position:absolute;top:10px;right:10px;background:var(--white);color:var(--deep);border:0;border-radius:999px;width:36px;height:36px;font-size:20px;cursor:pointer}
+
+/* Responsive */
+@media (max-width:980px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .months{grid-template-columns:repeat(4,1fr)}
+  .hero .wrap,.hours .wrap,.join .wrap,.club .wrap{grid-template-columns:1fr}
+  .next-card{grid-template-columns:1fr}
+  .next-flyer img{max-height:260px}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  section{padding:56px 0}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--stone);flex-direction:column;align-items:flex-start;padding:16px 24px 22px;gap:14px;border-bottom:1px solid var(--dstone);z-index:5}
+  .nav.open{display:flex}
+  .site-head{position:relative}
+  .menu-btn{display:inline-block}
+  .logo img{width:120px}
+  .cards{grid-template-columns:1fr}
+  .months{grid-template-columns:repeat(2,1fr)}
+  .duo .wrap{grid-template-columns:1fr}
+  .next-body{padding:26px 22px}
+  .hero{padding:40px 0 100px}
+  .hero-photo{display:none}            /* the club photo appears further down; keeps "Next up" on the first screen */
+  .next-flyer{order:2}
+  .next-flyer img{max-height:220px}
+  .site-foot .wrap{grid-template-columns:1fr}
+  .mock .wrap{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- PREVIEW NOTICE: remove before launch -->
+<div class="mock" id="mock"><div class="wrap">
+  <span><b>Committee preview</b> · not yet public · events are samples from recent flyers · <span class="tbc" style="color:var(--gold);border-color:var(--gold)">TBC</span> = needs a committee decision · <a href="mailto:ashowvillageemails@gmail.com?subject=Website%20preview%20feedback" style="color:var(--gold)">Send feedback</a></span>
+  <button type="button" onclick="document.getElementById('mock').remove()">Hide</button>
+</div></div>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Ashow Village Club, home"><img src="assets/brand/ashow-logo-primary.png" alt="Ashow Village Club"></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" onclick="toggleNav(this)">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#whats-on">What's on</a>
+      <a href="#hours">Opening hours</a>
+      <a href="#club">The club</a>
+      <a href="#hire">Hire</a>
+      <a href="#find-us">Find us</a>
+      <a class="btn btn-ochre btn-sm" href="#join">Join or renew</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero on-dark">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Ashow · Kenilworth · Warwickshire</p>
+        <h1>Your club at the heart of <em>the village</em></h1>
+        <p class="lede">A Grade II listed members' club, run by volunteers from Ashow. Pop in for a drink, come along to an event, or bring a friend as your guest.</p>
+        <div class="hero-actions">
+          <a class="btn btn-ochre" href="#whats-on">See what's on</a>
+          <a class="btn btn-line" href="#hours">Opening hours</a>
+        </div>
+        <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="status-text">Checking opening times…</span></p>
+      </div>
+      <figure class="hero-photo">
+        <img src="assets/photos/club-summer.jpg" alt="Ashow Village Club: the ivy-covered red-brick club building on the village lane, with its hanging sign and dormer windows">
+        <figcaption>The club in summer</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- NEXT UP -->
+  <section class="next" aria-labelledby="next-title">
+    <div class="wrap">
+      <article class="next-card" id="next-card"><!-- filled by script --></article>
+    </div>
+  </section>
+
+  <!-- WHAT'S ON -->
+  <section id="whats-on" aria-labelledby="whatson-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Coming up</p>
+          <h2 id="whatson-title">What's <em>on</em></h2>
+        </div>
+        <p>Events are for members and their guests. Regular fixtures show as "date to be confirmed" until the details go up, usually a few weeks before.</p>
+      </div>
+      <div class="cards" id="cards"><!-- filled by script --></div>
+    </div>
+  </section>
+
+  <!-- YEAR AT THE CLUB -->
+  <section class="year" aria-labelledby="year-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The schedule</p>
+          <h2 id="year-title">The year at <em>the club</em></h2>
+        </div>
+        <p>The regular fixtures, month by month, so you can plan ahead. Exact dates are confirmed on the What's on list above.</p>
+      </div>
+      <div class="months" id="months"><!-- filled by script --></div>
+      <div class="legend">
+        <span><i></i> Sunday lunchtime opening (summer)</span>
+        <span><i class="now"></i> This month</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPENING HOURS -->
+  <section class="hours" id="hours" aria-labelledby="hours-title">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">When we're open</p>
+        <h2 id="hours-title">Opening <em>hours</em> <span class="tbc">TBC</span></h2>
+        <p style="margin-top:14px;max-width:44ch">The bar is run by volunteers. Hours can change for events, and any changes are posted here.</p>
+        <div class="note-card">
+          <h3>A members' club</h3>
+          <p>Ashow Village Club is a private members' club. Members are welcome to bring guests, and anyone can ask about joining.</p>
+        </div>
+      </div>
+      <table class="hours-table" id="hours-table" aria-label="Opening hours"><tbody><!-- filled by script --></tbody></table>
+    </div>
+  </section>
+
+  <!-- MEMBERSHIP -->
+  <section class="join on-dark" id="join" aria-labelledby="join-title">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Membership</p>
+        <h2 id="join-title">Join the <em>club</em></h2>
+        <p style="margin-top:14px;max-width:48ch">Membership keeps the club running and open for the village. It's open to Ashow residents and friends of the club.</p>
+        <ul class="perks">
+          <li>Use the bar and bring your guests</li>
+          <li>Come to members' events like the May Day BBQ</li>
+          <li>Hire the club for your own occasions</li>
+          <li>Have your say at the AGM and help run the club</li>
+        </ul>
+      </div>
+      <div class="join-card">
+        <img src="assets/brand/ashow-logo-reversed.png" alt="">
+        <p>Annual membership <span class="tbc">£ TBC</span></p>
+        <p style="font-size:15px;margin-top:6px">Join or renew online in a couple of minutes.</p>
+        <a class="btn btn-ochre" href="#join">Join or renew online <span class="tbc">link TBC</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE CLUB -->
+  <section class="club" id="club" aria-labelledby="club-title">
+    <div class="wrap">
+      <figure>
+        <img src="assets/photos/club-autumn.jpg" alt="The club building in autumn light, seen from the lane">
+        <figcaption>The club in autumn</figcaption>
+      </figure>
+      <div>
+        <p class="eyebrow">About the club</p>
+        <h2 id="club-title">Centuries of stories, <em>and more to come</em></h2>
+        <p style="margin-top:14px">Ashow Village Club and Reading Room is an 18th-century, Grade II listed building on the village lane, once part of the Stoneleigh estate. Today it's a members' club run by a volunteer committee elected at the AGM.</p>
+        <div class="facts-list">
+          <span><b>Built</b>18th century</span>
+          <span><b>Status</b>Grade II listed</span>
+          <span><b>Run by</b>A volunteer committee</span>
+          <span><b>Inside</b>Bar and club room</span>
+        </div>
+        <a class="btn btn-line" href="https://history.ashowvillageclub.co.uk/" rel="noopener">Read Ashow's history</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIRE + FIND US -->
+  <section class="duo" aria-label="Hire and find us">
+    <div class="wrap">
+      <div class="panel" id="hire">
+        <p class="eyebrow">Private occasions</p>
+        <h2>Hire the <em>club</em></h2>
+        <p>Members can hire the club for birthdays, anniversaries and family gatherings for themselves and their guests.</p>
+        <p>Email <a href="mailto:hire@ashowvillageclub.co.uk">hire@ashowvillageclub.co.uk</a> with your date and numbers, and a committee member will get back to you.</p>
+      </div>
+      <div class="panel" id="find-us">
+        <p class="eyebrow">Find us</p>
+        <h2>On the village <em>lane</em></h2>
+        <address>Ashow Village Club<br>Ashow, Kenilworth<br>Warwickshire CV8 2LE <span class="tbc">street TBC</span></address>
+        <p style="margin-top:12px">General enquiries: <a href="mailto:info@ashowvillageclub.co.uk">info@ashowvillageclub.co.uk</a></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <img src="assets/brand/ashow-logo-reversed.png" alt="Ashow Village Club">
+    <div>
+      <h3>The club</h3>
+      <ul>
+        <li><a href="#whats-on">What's on</a></li>
+        <li><a href="#hours">Opening hours</a></li>
+        <li><a href="#join">Membership</a></li>
+        <li><a href="#hire">Hire</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Also in Ashow</h3>
+      <ul>
+        <li><a href="https://history.ashowvillageclub.co.uk/" rel="noopener">The history of Ashow</a></li>
+        <li><a href="#top">Privacy notice</a> <span class="tbc">TBC</span></li>
+      </ul>
+    </div>
+    <p class="small">© <span id="yr"></span> Ashow Village Club and Reading Room · A members' club run by volunteers</p>
+  </div>
+</footer>
+
+<dialog id="lightbox" aria-label="Event flyer">
+  <button class="close" type="button" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
+  <img id="lightbox-img" alt="">
+</dialog>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────────
+   EVENTS: one row per event. In the live site this list will come from a
+   shared Google Sheet the committee edits (same columns), so nobody needs to
+   touch this file. Sample data below is taken from the club's recent flyers.
+   date:   YYYY-MM-DD when confirmed, blank when not
+   month:  YYYY-MM, used for ordering and "The year at the club"
+   regular: true if it happens every year
+   ───────────────────────────────────────────────────────────────────────── */
+const EVENTS = [
+  // Past events (hidden automatically once the date has gone)
+  {date:'2026-03-10', month:'2026-03', title:'Talk: Ashow Past, Properties and People', time:'7.30pm for an 8pm start', start:'19:30', end:'21:30', summary:'David Clarke on the village, its houses and its people. Club open from 6pm.', flyer:'assets/events/talk-david-clarke-2026.jpg', regular:false},
+  {date:'2026-03-14', month:'2026-03', title:'Six Nations Super Saturday', time:'Bar open 4.30pm', start:'16:30', end:'22:30', summary:'Wales v Italy and France v England on the screen, pizza between games.', flyer:'assets/events/six-nations-2026.jpg', regular:true},
+  {date:'2026-05-03', month:'2026-05', title:'May Day BBQ', time:'Bar 1pm · BBQ from 3pm', start:'13:00', end:'18:00', price:'£5', summary:'Members\' BBQ marking the start of Sunday lunchtime opening. Part of every ticket goes to Myton Hospice.', flyer:'assets/events/may-day-bbq-2026.jpg', regular:true},
+  {date:'2026-07-18', month:'2026-07', title:'Quiz Night in the Garden', time:'Open 5pm · quiz 6pm', start:'17:00', end:'22:00', price:'£5pp, teams of 4', summary:'Quiz in the garden with a pizza break.', regular:true},
+  {date:'2026-09-18', month:'2026-09', title:'Ashow Golf Open & Curry Night', time:'First tee 12.13pm · curry 7pm', start:'12:13', end:'22:00', price:'£35 golf · £50 with curry', summary:'Golf at Stoneleigh Deer Park, then curry back at the club.', regular:true},
+
+  // Coming up
+  {date:'2026-09-27', month:'2026-09', title:'The Last Tea & Scones', time:'1pm – 4.30pm', start:'13:00', end:'16:30', summary:'Tea, scones and the last Pimm\'s of the summer, closing the Sunday lunchtime season.', book:'No need to book', flyer:'assets/events/tea-scones-2026.jpg', regular:true},
+  {date:'2026-10-10', month:'2026-10', title:'Pumpkin & Cake Competition', time:'Cakes in 1pm – 1.30pm · bar 2pm', start:'13:00', end:'17:00', price:'Free to enter', summary:'Cake judging from 2pm, pumpkin weigh-in from 3pm and the cake auction at 4pm. Book-token prize for the best cake by an under-16.', book:'No need to book: just bring your cake or pumpkin', flyer:'assets/events/pumpkin-cake-2026.jpg', regular:true},
+  {date:'', month:'2026-11', when:'Early November', title:'Firework Night', summary:'Fireworks in the field behind Grove Farm House, with a hotdog included. Tickets needed for entry.', price:'Last year: adults £10, children £2.50', regular:true},
+  {date:'', month:'2026-11', when:'November', title:'Curry Night', summary:'Curry at the club. Places are limited, so book early.', regular:true},
+  {date:'', month:'2027-03', when:'March', title:'Six Nations Super Saturday', summary:'The final weekend of the Six Nations on the big screen.', regular:true},
+  {date:'', month:'2027-04', when:'April', title:'Fish & Chip Night', summary:'Fish, sausage or halloumi and chips at the club.', regular:true},
+  {date:'', month:'2027-05', when:'Early May', title:'May Day BBQ', summary:'The members\' BBQ that opens the Sunday lunchtime season.', regular:true},
+  {date:'', month:'2027-07', when:'July', title:'Quiz Night in the Garden', summary:'The summer quiz, teams of four.', regular:true},
+  {date:'', month:'2027-09', when:'September', title:'Ashow Golf Open', summary:'Golf at Stoneleigh Deer Park, then curry at the club.', regular:true},
+  {date:'', month:'2027-09', when:'Late September', title:'The Last Tea & Scones', summary:'Closing the Sunday lunchtime season.', regular:true},
+];
+const DEFAULTS = {
+  where:'Ashow Village Club',
+  who:'Members and their guests',
+  book:'Book on the club WhatsApp; pay online with the club payment link (TBC)'
+};
+
+/* OPENING HOURS: 0 = Sunday … 6 = Saturday. Times need confirming (TBC). */
+const HOURS = [
+  {day:2, label:'Tuesday',  text:'6pm – 9pm',    open:'18:00', close:'21:00'},
+  {day:5, label:'Friday',   text:'6pm – late',   open:'18:00', close:'23:30'},
+  {day:0, label:'Sunday',   text:'6pm – late',   open:'18:00', close:'23:30'},
+];
+const SUMMER_SUNDAY = {label:'Sunday lunchtime (May – September)', text:'11am – 3pm', open:'11:00', close:'15:00', months:[4,5,6,7,8]};
+
+/* ── helpers ── */
+const today = new Date(); today.setHours(0,0,0,0);
+const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const todayISO = iso(today), thisMonth = todayISO.slice(0,7);
+const parse = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); };
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const fmtLong = s => parse(s).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+const esc = s => String(s ?? '').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const withTbc = s => esc(s).replace('(TBC)','<span class="tbc">TBC</span>');
+const sortKey = e => e.date || (e.month + '-28');
+
+const upcoming = EVENTS
+  .filter(e => e.date ? e.date >= todayISO : e.month >= thisMonth)
+  .sort((a,b) => sortKey(a).localeCompare(sortKey(b)));
+const nextUp = upcoming.find(e => e.date);
+const rest = upcoming.filter(e => e !== nextUp).slice(0,6);
+
+/* ── Next up ── */
+function daysUntil(s){ return Math.round((parse(s) - today) / 86400000); }
+function countdownText(s){ const n = daysUntil(s); return n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : 'In ' + n + ' days'; }
+function renderNext(){
+  const el = document.getElementById('next-card');
+  if(!nextUp){ el.innerHTML = '<div class="next-body"><p class="empty">No confirmed events just now: check the schedule below.</p></div>'; return; }
+  const e = {...DEFAULTS, ...nextUp};
+  el.innerHTML = `
+    ${e.flyer ? `<div class="next-flyer"><button type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')" aria-label="View the ${esc(e.title)} flyer"><img src="${e.flyer}" alt="Flyer for ${esc(e.title)}"></button></div>` : ''}
+    <div class="next-body">
+      <div class="next-label"><span class="pill">Next up</span><span class="countdown">${countdownText(e.date)}</span></div>
+      <p class="next-date">${fmtLong(e.date)}</p>
+      <h2 id="next-title">${esc(e.title)}</h2>
+      <p>${esc(e.summary)}</p>
+      <dl class="facts">
+        <div><dt>When</dt><dd>${esc(e.time)}</dd></div>
+        <div><dt>Where</dt><dd>${esc(e.where)}</dd></div>
+        ${e.price ? `<div><dt>Price</dt><dd>${esc(e.price)}</dd></div>` : ''}
+        <div><dt>Who</dt><dd>${esc(e.who)}</dd></div>
+        <div style="grid-column:1/-1"><dt>How to book</dt><dd>${withTbc(e.book)}</dd></div>
+      </dl>
+      <div class="actions">
+        <button class="btn btn-ochre" type="button" onclick="addToCalendar(${EVENTS.indexOf(nextUp)})">Add to my calendar</button>
+        ${e.flyer ? `<button class="btn btn-line" type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')">View the flyer</button>` : ''}
+      </div>
+    </div>`;
+}
+
+/* ── What's on cards ── */
+const DECOR = ['oak-leaf','hanging-sign','sash-window','chimney-stack','doorway'];
+function renderCards(){
+  const el = document.getElementById('cards');
+  if(!rest.length){ el.innerHTML = '<p class="empty">More events coming soon.</p>'; return; }
+  el.innerHTML = rest.map((ev,i) => {
+    const e = {...DEFAULTS, ...ev};
+    const confirmed = !!e.date;
+    const d = confirmed ? parse(e.date) : null;
+    const box = confirmed
+      ? `<div class="datebox" aria-hidden="true"><span class="d">${d.getDate()}</span><span class="m">${MONTHS[d.getMonth()].slice(0,3)}</span></div>`
+      : `<div class="datebox tbc-date" aria-hidden="true"><span class="m">${MONTHS[Number(e.month.slice(5))-1].slice(0,3)}</span><span class="d" style="margin-top:6px">TBC</span></div>`;
+    const when = confirmed ? `${fmtLong(e.date)} · ${esc(e.time)}` : `${esc(e.when)} ${e.month.slice(0,4)} · date to be confirmed`;
+    const thumb = e.flyer
+      ? `<button class="thumb" type="button" onclick="showFlyer('${e.flyer}','${esc(e.title)} flyer')" aria-label="View the ${esc(e.title)} flyer"><img src="${e.flyer}" alt=""></button>`
+      : `<span class="thumb icon"><img src="assets/decor/${DECOR[i % DECOR.length]}.png" alt=""></span>`;
+    return `
+      <article class="card">
+        <div class="card-top">${box}<div><h3>${esc(e.title)}</h3><p class="when">${when}</p></div></div>
+        <div class="card-body">
+          <p>${esc(e.summary)}</p>
+          ${e.price ? `<p class="who"><b>Price:</b> ${esc(e.price)}</p>` : ''}
+          ${confirmed ? `<p class="book"><b>How to book:</b> ${withTbc(e.book)}</p>` : `<p class="book">Details and booking will be posted here nearer the time.</p>`}
+          <div class="card-foot">
+            <span class="who">${esc(e.who)}</span>
+            ${confirmed ? `<button class="btn btn-line btn-sm" type="button" onclick="addToCalendar(${EVENTS.indexOf(ev)})">Add to calendar</button>` : thumb}
+          </div>
+          ${confirmed && e.flyer ? `<div>${thumb}</div>` : ''}
+        </div>
+      </article>`;
+  }).join('');
+}
+
+/* ── The year at the club (regular fixtures by calendar month) ── */
+function renderYear(){
+  const byMonth = Array.from({length:12}, () => new Set());
+  EVENTS.filter(e => e.regular).forEach(e => byMonth[Number(e.month.slice(5))-1].add(e.title.replace(' & Curry Night','')));
+  const now = today.getMonth();
+  document.getElementById('months').innerHTML = byMonth.map((set,m) => {
+    const items = [...set];
+    const summer = SUMMER_SUNDAY.months.includes(m);
+    return `<div class="month${m===now?' now':''}${summer?' summer':''}">
+      <h3>${MONTHS[m].slice(0,3)}${m===now?'<span>Now</span>':''}</h3>
+      <ul>${items.length ? items.map(t=>`<li>${esc(t)}</li>`).join('') : '<li class="none">No regular fixture</li>'}</ul>
+    </div>`;
+  }).join('');
+}
+
+/* ── Opening hours + "open tonight" status ── */
+function renderHours(){
+  const dow = new Date().getDay(), m = new Date().getMonth();
+  const order = [1,2,3,4,5,6,0];
+  const names = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const rows = order.map(d => {
+    const h = HOURS.find(x => x.day === d);
+    let text = h ? h.text : 'Closed';
+    if(d === 0) text = (SUMMER_SUNDAY.months.includes(m) ? SUMMER_SUNDAY.text + ' and ' : '') + h.text;
+    return `<tr class="${d===dow?'today':''}"><th scope="row">${names[d]}</th><td class="${h?'':'closed'}">${text}</td></tr>`;
+  }).join('') + `<tr><th scope="row" style="font-weight:500">${SUMMER_SUNDAY.label}</th><td>${SUMMER_SUNDAY.text}</td></tr>`;
+  document.querySelector('#hours-table tbody').innerHTML = rows;
+
+  const h = HOURS.find(x => x.day === dow);
+  const st = document.getElementById('status');
+  if(h){ document.getElementById('status-text').textContent = 'Open tonight, ' + h.text; }
+  else{
+    let n = 1; while(!HOURS.find(x => x.day === (dow+n)%7)) n++;
+    const nx = HOURS.find(x => x.day === (dow+n)%7);
+    st.classList.add('closed');
+    document.getElementById('status-text').textContent = 'Closed tonight · next open ' + (n===1?'tomorrow':nx.label) + ', ' + nx.text;
+  }
+}
+
+/* ── Add to calendar (.ics download) ── */
+function addToCalendar(i){
+  const e = {...DEFAULTS, ...EVENTS[i]};
+  const stamp = (d,t) => d.replace(/-/g,'') + 'T' + (t||'19:00').replace(':','') + '00';
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ashow Village Club//Events//EN','BEGIN:VEVENT',
+    'UID:' + e.date + '-' + e.title.replace(/\W+/g,'-').toLowerCase() + '@ashowvillageclub.co.uk',
+    'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g,'').slice(0,15) + 'Z',
+    'DTSTART:' + stamp(e.date,e.start), 'DTEND:' + stamp(e.date,e.end||e.start),
+    'SUMMARY:' + e.title, 'LOCATION:' + e.where + ', Ashow, Kenilworth CV8 2LE',
+    'DESCRIPTION:' + (e.summary||'').replace(/,/g,'\\,'),
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));
+  a.download = e.title.replace(/\W+/g,'-').toLowerCase() + '.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ── Flyer lightbox + mobile menu ── */
+function showFlyer(src,alt){ const d = document.getElementById('lightbox'); const im = document.getElementById('lightbox-img'); im.src = src; im.alt = alt; d.showModal(); }
+document.getElementById('lightbox').addEventListener('click', e => { if(e.target.tagName === 'DIALOG') e.target.close(); });
+function toggleNav(btn){ const n = document.getElementById('nav'); const open = n.classList.toggle('open'); btn.setAttribute('aria-expanded', open); }
+document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', () => { document.getElementById('nav').classList.remove('open'); }));
+
+document.getElementById('yr').textContent = today.getFullYear();
+renderNext(); renderCards(); renderYear(); renderHours();
+</script>
+</body>
+</html>
