@@ -718,11 +718,26 @@ function googleCalUrl(i){
   });
   return 'https://calendar.google.com/calendar/render?' + p.toString();
 }
+function outlookUrl(i, host){
+  const e = {...DEFAULTS, ...EVENTS[i]};
+  const at = (d,h) => { const [y,m,dd] = d.split('-').map(Number); const [hh,mm] = (h||'19:00').split(':').map(Number); return new Date(y,m-1,dd,hh,mm).toISOString(); };
+  const p = new URLSearchParams({
+    path:'/calendar/action/compose', rru:'addevent', subject:e.title,
+    startdt: e.allDay ? e.date : at(e.date,e.start),
+    enddt:   e.allDay ? nextDay(e.date) : at(e.date,e.end||e.start),
+    allday:  e.allDay ? 'true' : 'false',
+    location: placeText(e),
+    body: (e.summary||'') + (e.time ? '\n\n' + e.time : '') + '\n\nMore at ' + siteLink()
+  });
+  return 'https://' + host + '/calendar/0/deeplink/compose?' + p.toString();
+}
 function calMenu(i, cls, label){
   return `<details class="cal"><summary class="${cls}">${label}</summary>
     <div class="cal-menu">
-      <a href="${googleCalUrl(i)}" target="_blank" rel="noopener">Google Calendar<small>Opens Google Calendar to save it</small></a>
-      <button type="button" onclick="addToCalendar(${i})">Apple, Outlook or other<small>Downloads a calendar file</small></button>
+      <a href="${googleCalUrl(i)}" target="_blank" rel="noopener">Google Calendar<small>Gmail and Android</small></a>
+      <a href="${outlookUrl(i,'outlook.live.com')}" target="_blank" rel="noopener">Outlook.com<small>Hotmail, Live and Outlook.com</small></a>
+      <a href="${outlookUrl(i,'outlook.office.com')}" target="_blank" rel="noopener">Outlook for work<small>Microsoft 365 accounts</small></a>
+      <button type="button" onclick="addToCalendar(${i})">Apple Calendar or other<small>iPhone, Mac, or downloads a calendar file</small></button>
     </div></details>`;
 }
 document.addEventListener('click', ev => {
