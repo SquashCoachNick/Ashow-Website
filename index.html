@@ -73,7 +73,7 @@ section{padding:72px 0}
 .site-head.stuck .logo-full{display:none}
 .site-head.stuck .logo-mark{display:block}
 @keyframes slideDown{from{transform:translateY(-100%)}to{transform:none}}
-main section[id],#hire,#find-us{scroll-margin-top:84px}   /* menu links land below the slim bar */
+main section[id],#hire,#find-us,#ask{scroll-margin-top:84px}   /* menu links land below the slim bar */
 .nav{display:flex;align-items:center;gap:26px}
 .nav a{text-decoration:none;color:var(--deep);font-weight:500;font-size:16px}
 .nav a:hover{color:var(--river);text-decoration:underline;text-underline-offset:4px}
@@ -200,6 +200,39 @@ main section[id],#hire,#find-us{scroll-margin-top:84px}   /* menu links land bel
 .panel p+p{margin-top:10px}
 .panel address{font-style:normal;margin-top:10px}
 
+/* Committee */
+.committee{background:var(--stone)}
+.committee .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.committee .intro{margin:14px 0 24px;max-width:46ch}
+.meeting{background:var(--white);border:1px solid var(--dstone);border-left:4px solid var(--river);border-radius:10px;padding:24px 26px}
+.meeting .pill{background:var(--river)}
+.meeting .m-date{font-family:var(--serif);font-size:26px;color:var(--river);line-height:1.2;margin:14px 0 6px}
+.meeting .m-meta{color:var(--muted);font-size:16px}
+.meeting .m-note{margin-top:10px;font-size:16px}
+.meeting .actions{margin-top:18px}
+.meeting .cal-menu{top:auto;bottom:calc(100% + 6px)}
+.later{margin-top:22px}
+.later h3{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.later ul{list-style:none;border-top:1px solid var(--dstone)}
+.later li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--dstone);font-size:16px}
+.later li span:last-child{color:var(--muted)}
+.ask{background:var(--white);border:1px solid var(--dstone);border-radius:12px;padding:30px}
+.ask h3{font-size:26px;margin-bottom:8px}
+.ask > p{color:var(--muted);font-size:16px;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-weight:600;font-size:15px}
+.field label small{font-weight:400;color:var(--muted)}
+.field input,.field select,.field textarea{font:400 16px/1.4 var(--sans);color:var(--deep);background:var(--stone);border:1.5px solid #C9BFAE;border-radius:var(--r);padding:11px 12px;width:100%}
+.field textarea{min-height:140px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--gold);outline-offset:1px;border-color:var(--river);background:var(--white)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ask .small{font-size:14px;color:var(--muted);margin-top:12px}
+.ask .btn{width:100%;justify-content:center}
+.ask .btn[disabled]{opacity:.6;cursor:wait}
+.ask-msg{margin-top:14px;padding:12px 14px;border-radius:var(--r);font-size:15px;display:none}
+.ask-msg.ok{display:block;background:#E3EEE5;color:#1F4A28}
+.ask-msg.err{display:block;background:#F6E3DF;color:#7A2418}
+
 /* Footer */
 .site-foot{background:var(--deep);color:#C9D3D8;padding:48px 0 28px;font-size:15px}
 .site-foot .wrap{display:grid;grid-template-columns:auto 1fr 1fr;gap:40px;align-items:start}
@@ -229,7 +262,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
 @media (max-width:980px){
   .cards{grid-template-columns:repeat(2,1fr)}
   .months{grid-template-columns:repeat(4,1fr)}
-  .hero .wrap,.hours .wrap,.join .wrap,.club .wrap{grid-template-columns:1fr}
+  .hero .wrap,.hours .wrap,.join .wrap,.club .wrap,.committee .wrap{grid-template-columns:1fr}
   .next-card{grid-template-columns:1fr}
   .next-flyer img{max-height:260px}
   .next-flyer.next-decor{display:none}
@@ -241,6 +274,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
   .cards{grid-template-columns:1fr}
   .months{grid-template-columns:repeat(2,1fr)}
   .duo .wrap{grid-template-columns:1fr}
+  .ask{padding:22px}
   .next-body{padding:26px 22px}
   .hero{padding:40px 0 100px}
   .hero-photo{display:none}            /* the club photo appears further down; keeps "Next up" on the first screen */
@@ -272,6 +306,7 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
       <a href="https://history.ashowvillageclub.co.uk/">History</a>
       <a href="#hire">Hire</a>
       <a href="#find-us">Find us</a>
+      <a href="#committee">Committee</a>
       <a class="btn btn-ochre btn-sm" href="mailto:hello@ashowvillageclub.co.uk?subject=I%20would%20like%20to%20Join%20Ashow%20Club%20or%20Renew%20My%20Subscription">Join or renew</a>
     </nav>
   </div>
@@ -419,6 +454,32 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
     </div>
   </section>
 
+  <!-- COMMITTEE -->
+  <section class="committee" id="committee" aria-labelledby="committee-title">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Run by volunteers</p>
+        <h2 id="committee-title">The <em>committee</em></h2>
+        <p class="intro">The club is run by a volunteer committee elected at the AGM. It meets through the year to look after the building, the bar, events and membership.</p>
+        <div class="meeting" id="meeting"><p class="empty">Loading meeting dates…</p></div>
+        <div class="later" id="later-meetings" hidden></div>
+      </div>
+      <form class="ask" id="ask" novalidate>
+        <h3>Ask the committee a question</h3>
+        <p>A question, an idea or something that needs looking at? Send it here and a committee member will reply by email.</p>
+        <div class="field"><label for="ask-name">Your name</label><input id="ask-name" name="name" autocomplete="name" required maxlength="100"></div>
+        <div class="field"><label for="ask-email">Your email</label><input id="ask-email" name="email" type="email" autocomplete="email" required maxlength="200"></div>
+        <div class="field"><label for="ask-member">Are you a member? <small>(optional)</small></label>
+          <select id="ask-member" name="member"><option value="">Choose…</option><option>Yes</option><option>No</option><option>Thinking of joining</option></select></div>
+        <div class="field"><label for="ask-question">Your question</label><textarea id="ask-question" name="question" required maxlength="3000"></textarea></div>
+        <div class="hp" aria-hidden="true"><label for="ask-website">Leave this empty</label><input id="ask-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <button class="btn btn-ochre" type="submit" id="ask-send">Send to the committee</button>
+        <p class="ask-msg" id="ask-msg" role="status" aria-live="polite"></p>
+        <p class="small">We only use your details to answer your question. See our <a href="privacy.html">privacy notice</a>.</p>
+      </form>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-foot">
@@ -431,6 +492,8 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
         <li><a href="#hours">Opening hours</a></li>
         <li><a href="#join">Membership</a></li>
         <li><a href="#hire">Hire</a></li>
+        <li><a href="#committee">The committee</a></li>
+        <li><a href="#ask">Ask the committee a question</a></li>
       </ul>
     </div>
     <div>
@@ -464,6 +527,11 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
                             Price: £15        Booking: Reply on the club WhatsApp
                             Who: Members only Regular: yes   When: Early November
      Attachment ......... a flyer from Google Drive (shown as "View the flyer").
+
+   COMMITTEE MEETINGS go in the same calendar with the title "Committee meeting"
+   (anything after it is fine, e.g. "Committee meeting: budget"). They show in
+   the Committee section only, never in What's on. Location blank = the club;
+   the first line of the description, if any, shows under the date.
 
    The API key below is public by design: Google restricts it to the club's
    web addresses and to reading public calendar data only.
@@ -537,9 +605,15 @@ const linkify = s => esc(s).replace(/https?:\/\/[^\s<]+/g, u => `<a href="${u}" 
 const withTbc = s => linkify(s).replace('(TBC)','<span class="tbc">TBC</span>');
 const isUpcoming = e => e.date ? e.date >= todayISO : e.month >= thisMonth;
 
-let EVENTS = [], upcoming = [], nextUp = null, rest = [], SOURCE = 'none';
+/* "Ask the committee" form: paste the Apps Script web app URL (ends in /exec) between the quotes.
+   While it's empty, the Send button opens the person's email app addressed to hello@ instead. */
+const ASK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxUJ-hO6tp9dZYel2dQxsDmPLoE8SjxQseMQsBW-b6ENvyvyWLm2mdrqchXJK-ekoFjuA/exec';
+
+const isMeeting = e => /^committee meeting\b/i.test(e.title || '');
+let EVENTS = [], upcoming = [], nextUp = null, rest = [], meetings = [], SOURCE = 'none';
 function computeLists(){
-  upcoming = EVENTS.filter(isUpcoming).sort((a,b) => sortKey(a).localeCompare(sortKey(b)));
+  meetings = EVENTS.filter(e => e.meeting && isUpcoming(e)).sort((a,b) => sortKey(a).localeCompare(sortKey(b)));
+  upcoming = EVENTS.filter(e => !e.meeting && isUpcoming(e)).sort((a,b) => sortKey(a).localeCompare(sortKey(b)));
   nextUp = upcoming.find(e => e.date) || null;
   rest = upcoming.filter(e => e !== nextUp).slice(0,6);
 }
@@ -566,6 +640,7 @@ function fromGoogle(it){
   const rawTitle = (it.summary || 'Club event').trim();
   const tbc = /^\s*tbc\b[\s:\-–]*/i.test(rawTitle);
   e.title = rawTitle.replace(/^\s*tbc\b[\s:\-–]*/i,'').trim() || 'Club event';
+  e.meeting = isMeeting(e);
   const allDay = !!(it.start && it.start.date);
   const s = allDay ? parse(it.start.date) : new Date(it.start.dateTime);
   const en = it.end ? (allDay ? parse(it.end.date) : new Date(it.end.dateTime)) : null;
@@ -605,7 +680,7 @@ async function loadEvents(){
     if(!r.ok) throw new Error('calendar returned ' + r.status);
     const data = await r.json();
     const evs = (data.items || []).filter(it => it.status !== 'cancelled' && it.start).map(fromGoogle);
-    if(evs.some(isUpcoming) || !USE_SAMPLES){ EVENTS = evs; SOURCE = 'calendar'; return; }
+    if(evs.some(e => !e.meeting && isUpcoming(e)) || !USE_SAMPLES){ EVENTS = evs; SOURCE = 'calendar'; return; }
     throw new Error('no upcoming events in the calendar yet');
   }catch(err){
     console.warn('Club calendar not used:', err.message);
@@ -684,7 +759,7 @@ function renderCards(){
 /* ── The year at the club (regular fixtures by calendar month) ── */
 function renderYear(){
   const byMonth = Array.from({length:12}, () => new Map());   // one entry per title per month
-  EVENTS.filter(e => e.regular).forEach(e => {
+  EVENTS.filter(e => e.regular && !e.meeting).forEach(e => {
     const t = e.title.replace(/\s*&\s*Curry Night$/i,'');
     byMonth[Number(e.month.slice(5))-1].set(t.toLowerCase(), t);
   });
@@ -698,6 +773,56 @@ function renderYear(){
     </div>`;
   }).join('');
 }
+
+/* ── Committee meetings ── */
+function renderMeetings(){
+  const el = document.getElementById('meeting'), later = document.getElementById('later-meetings');
+  const next = meetings.find(m => m.date) || meetings[0];
+  if(!next){
+    el.innerHTML = `<span class="pill">Next meeting</span><p class="m-meta" style="margin-top:12px">${SOURCE === 'error' ? 'Meeting dates couldn\'t be loaded just now.' : 'The date of the next meeting will be posted here.'}</p>`;
+    later.hidden = true; return;
+  }
+  const e = {...DEFAULTS, ...next};
+  const dateText = e.date ? parse(e.date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : `${esc(e.when)} ${e.month.slice(0,4)} (date to be confirmed)`;
+  const timeText = e.date && !e.allDay ? e.time : '';
+  el.innerHTML = `
+    <div class="next-label"><span class="pill">Next meeting</span>${e.date ? `<span class="countdown">${countdownText(e.date)}</span>` : ''}</div>
+    <p class="m-date">${dateText}</p>
+    <p class="m-meta">${[timeText, esc(e.where)].filter(Boolean).join(' · ')}</p>
+    ${e.summary ? `<p class="m-note">${linkify(e.summary)}</p>` : ''}
+    ${e.date ? `<div class="actions">${calMenu(EVENTS.indexOf(next), 'btn btn-line btn-sm', 'Add to calendar')}</div>` : ''}`;
+  const others = meetings.filter(m => m !== next).slice(0,6);
+  later.hidden = !others.length;
+  later.innerHTML = others.length ? `<h3>Later meetings</h3><ul>${others.map(m => `<li><span>${m.date ? fmtLong(m.date) : esc(m.when) + ' ' + m.month.slice(0,4)}</span><span>${m.date ? (m.allDay ? '' : esc(m.time)) : 'date to be confirmed'}</span></li>`).join('')}</ul>` : '';
+}
+
+/* ── Ask the committee a question ── */
+(function(){
+  const form = document.getElementById('ask'), msg = document.getElementById('ask-msg'), btn = document.getElementById('ask-send');
+  const loaded = Date.now();
+  const show = (cls, html) => { msg.className = 'ask-msg ' + cls; msg.innerHTML = html; };
+  form.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const f = Object.fromEntries(new FormData(form));
+    if(!f.name.trim() || !f.question.trim()) return show('err', 'Please add your name and your question.');
+    if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(f.email.trim())) return show('err', 'Please check your email address.');
+    if(!ASK_ENDPOINT){   // not connected yet: hand over to the person's email app
+      const body = f.question + '\n\n' + f.name + (f.member ? '\nMember: ' + f.member : '');
+      location.href = 'mailto:hello@ashowvillageclub.co.uk?subject=' + encodeURIComponent('Question for the committee') + '&body=' + encodeURIComponent(body);
+      return show('ok', 'Your email app should open with your question ready to send.');
+    }
+    btn.disabled = true; btn.textContent = 'Sending…'; show('', '');
+    try{
+      const r = await fetch(ASK_ENDPOINT, {method:'POST', body:new URLSearchParams({...f, elapsed:String(Date.now() - loaded)})});
+      const res = await r.json();
+      if(!res.ok){ const e = new Error(res.message || ''); e.fromServer = true; throw e; }
+      form.reset();
+      show('ok', '<b>Thanks, your question has been sent.</b> A committee member will reply by email.');
+    }catch(err){
+      show('err', esc(err.fromServer && err.message ? err.message : 'Sorry, that didn\'t send.') + ' You can also email <a href="mailto:hello@ashowvillageclub.co.uk?subject=Question%20for%20the%20committee">hello@ashowvillageclub.co.uk</a>.');
+    }finally{ btn.disabled = false; btn.textContent = 'Send to the committee'; }
+  });
+})();
 
 /* ── Opening hours + "open tonight" status ── */
 function renderHours(){
@@ -817,7 +942,7 @@ document.getElementById('yr').textContent = today.getFullYear();
 renderHours();
 document.getElementById('next-card').innerHTML = '<div class="next-body"><p class="empty">Loading what\'s on…</p></div>';
 loadEvents().then(() => {
-  computeLists(); renderNext(); renderCards(); renderYear();
+  computeLists(); renderNext(); renderCards(); renderYear(); renderMeetings();
   const note = document.getElementById('events-source');
   if(note) note.textContent = SOURCE === 'calendar' ? 'events come from the club calendar' : 'events are samples from recent flyers';
 });
