@@ -528,8 +528,8 @@ dialog .close{position:absolute;top:10px;right:10px;background:var(--white);colo
                             Who: Members only Regular: yes   When: Early November
      Attachment ......... a flyer from Google Drive (shown as "View the flyer").
 
-   COMMITTEE MEETINGS go in the same calendar with the title "Committee meeting"
-   (anything after it is fine, e.g. "Committee meeting: budget"). They show in
+   COMMITTEE MEETINGS go in the same calendar with "Committee meeting" anywhere
+   in the title (e.g. "Committee meeting" or "Social Committee Meeting"). They show in
    the Committee section only, never in What's on. Location blank = the club;
    the first line of the description, if any, shows under the date.
 
@@ -609,7 +609,8 @@ const isUpcoming = e => e.date ? e.date >= todayISO : e.month >= thisMonth;
    While it's empty, the Send button opens the person's email app addressed to hello@ instead. */
 const ASK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxUJ-hO6tp9dZYel2dQxsDmPLoE8SjxQseMQsBW-b6ENvyvyWLm2mdrqchXJK-ekoFjuA/exec';
 
-const isMeeting = e => /^committee meeting\b/i.test(e.title || '');
+const isMeeting = e => /\bcommittee\s+meetings?\b/i.test(e.title || '');   // e.g. "Committee meeting", "Social Committee Meeting"
+const meetingName = e => /^committee\s+meetings?$/i.test(e.title.trim()) ? '' : e.title.trim();   // shown only when it's more than the plain title
 let EVENTS = [], upcoming = [], nextUp = null, rest = [], meetings = [], SOURCE = 'none';
 function computeLists(){
   meetings = EVENTS.filter(e => e.meeting && isUpcoming(e)).sort((a,b) => sortKey(a).localeCompare(sortKey(b)));
@@ -787,13 +788,14 @@ function renderMeetings(){
   const timeText = e.date && !e.allDay ? e.time : '';
   el.innerHTML = `
     <div class="next-label"><span class="pill">Next meeting</span>${e.date ? `<span class="countdown">${countdownText(e.date)}</span>` : ''}</div>
+    ${meetingName(e) ? `<h3 style="font-size:22px;margin-top:14px">${esc(meetingName(e))}</h3>` : ''}
     <p class="m-date">${dateText}</p>
-    <p class="m-meta">${[timeText, esc(e.where)].filter(Boolean).join(' · ')}</p>
+    <p class="m-meta">${[timeText, esc(e.where), next.who ? esc(next.who) : ''].filter(Boolean).join(' · ')}</p>
     ${e.summary ? `<p class="m-note">${linkify(e.summary)}</p>` : ''}
     ${e.date ? `<div class="actions">${calMenu(EVENTS.indexOf(next), 'btn btn-line btn-sm', 'Add to calendar')}</div>` : ''}`;
   const others = meetings.filter(m => m !== next).slice(0,6);
   later.hidden = !others.length;
-  later.innerHTML = others.length ? `<h3>Later meetings</h3><ul>${others.map(m => `<li><span>${m.date ? fmtLong(m.date) : esc(m.when) + ' ' + m.month.slice(0,4)}</span><span>${m.date ? (m.allDay ? '' : esc(m.time)) : 'date to be confirmed'}</span></li>`).join('')}</ul>` : '';
+  later.innerHTML = others.length ? `<h3>Later meetings</h3><ul>${others.map(m => `<li><span>${m.date ? fmtLong(m.date) : esc(m.when) + ' ' + m.month.slice(0,4)}${meetingName(m) ? ' · ' + esc(meetingName(m)) : ''}</span><span>${m.date ? (m.allDay ? '' : esc(m.time)) : 'date to be confirmed'}</span></li>`).join('')}</ul>` : '';
 }
 
 /* ── Ask the committee a question ── */
